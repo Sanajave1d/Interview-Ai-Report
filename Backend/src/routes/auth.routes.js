@@ -35,7 +35,7 @@ authRouter.post('/refresh', refreshTokenController)
  * @access Public
  */
 
-authRouter.get('/logout', logoutController  )
+authRouter.post('/logout', logoutController  )
 
 /**
  * @route GET /api/auth/get-me

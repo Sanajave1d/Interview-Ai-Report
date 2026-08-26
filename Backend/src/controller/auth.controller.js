@@ -33,8 +33,8 @@ function createTokens(user) {
 function setRefreshTokenCookie(res, refreshToken) {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    sameSite: "strict",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: "none",
+    secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 }
@@ -182,8 +182,8 @@ async function logoutController(req, res) {
     });
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      secure: true,
     });
   } catch (err) {
     console.error("Error occurred while blacklisting refresh token:", err);
