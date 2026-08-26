@@ -26,6 +26,11 @@ app.set("trust proxy", 1);
 
 app.use(express.json())
 app.use(cookieParser())
+app.get('/', (req, res) => {
+    res.json({
+        message: 'Interview AI API is running'
+    })
+})
 app.use('/api/auth/',authRouter )
 app.use('/api/interview/', interviewRouter)
 
