@@ -1,10 +1,10 @@
 {
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "PUPPETEER_CACHE_DIR=/app/.cache/puppeteer npm install --omit=dev && PUPPETEER_CACHE_DIR=/app/.cache/puppeteer npx puppeteer browsers install chrome"
+    "buildCommand": "npm install --omit=dev"
   },
   "deploy": {
-    "startCommand": "PUPPETEER_CACHE_DIR=/app/.cache/puppeteer npm start",
+    "startCommand": "npm start",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
