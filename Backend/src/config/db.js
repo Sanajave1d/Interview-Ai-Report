@@ -5,10 +5,11 @@ const dnsServers = process.env.DNS_SERVERS?.split(',').map(server => server.trim
 dns.setServers(dnsServers?.length ? dnsServers : ['1.1.1.1', '8.8.8.8'])
 async function connectToDB() {
     try {
-        mongoose.connect(process.env.MONGO_URI)
-            console.log('conneted to DB')
+        await mongoose.connect(process.env.MONGO_URI)
+        console.log('connected to DB')
     } catch (error) {
-        console.log(error)
+        console.error('Database connection failed:', error)
+        throw error
     }
 }
 

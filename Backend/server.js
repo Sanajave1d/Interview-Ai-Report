@@ -3,11 +3,17 @@ const app = require("./src/app");
 const { connectToDB } = require("./src/config/db");
 
 
-connectToDB()
-
-
 const port = process.env.PORT || 3000
 
-app.listen(port,()=>{
-    console.log(`app running at port ${port}`)
+async function startServer() {
+    await connectToDB()
+
+    app.listen(port,()=>{
+        console.log(`app running at port ${port}`)
+    })
+}
+
+startServer().catch((error) => {
+    console.error('Server startup failed:', error)
+    process.exit(1)
 })

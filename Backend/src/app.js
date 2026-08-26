@@ -51,7 +51,10 @@ app.use((error, req, res, next) => {
 		return res.status(400).json({ message: 'request body must contain valid JSON' })
 	}
 
-	return next(error)
+  console.error('Request failed:', error)
+  return res.status(error.status || 500).json({
+    message: error.message || 'Internal Server Error'
+  })
 })
 
 module.exports = app
