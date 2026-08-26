@@ -70,9 +70,12 @@ async function getAllInterviewReportsController(req,res) {
 async function generateResumePdfController(req,res){
     const {interviewReportId} = req.params
 
-    const interviewReport = await InterviewReportModel.findById(interviewReportId)
+    const interviewReport = await InterviewReportModel.findOne({
+        _id: interviewReportId,
+        user: req.user.userId
+    })
     if(!interviewReport){
-        res.status(404).json({
+        return res.status(404).json({
             message: "Interview Report Not Found"
         })
     }
