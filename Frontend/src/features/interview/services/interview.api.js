@@ -29,10 +29,22 @@ export const getAllInterviewReports = async ()=>{
 }
 
 export const generateResumePdf = async ({ interviewReportId }) => {
-  const response = await api.post(
-    `/api/interview/resume/pdf/${interviewReportId}`,
-    {}, // request body (empty, since this POST doesn't need one)
-    { responseType: "blob" } // ← config goes here
-  );
-  return response.data;
+  try {
+    const response = await api.post(
+      `/api/interview/resume/pdf/${interviewReportId}`,
+      {},
+      { responseType: "blob" }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response?.data instanceof Blob) {
+      const message = await error.response.data.text();
+      try {
+        error.response.data = JSON.parse(message);
+      } catch {
+        error.response.data = { message };
+      }
+    }
+    throw error;
+  }
 };
