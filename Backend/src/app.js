@@ -8,12 +8,24 @@ const { interviewRouter } = require('./routes/interview.route')
 const app = express()
 const allowedOrigins = [
   process.env.FRONTEND_URL,
-  "http://localhost:5173", // keep local dev working
+  "http://localhost:5173",
 ];
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+  if (allowedOrigins.includes(origin)) return true;
+
+  try {
+    const url = new URL(origin);
+    return url.protocol === 'https:' && url.hostname.startsWith('interview-ai-report-') && url.hostname.endsWith('.vercel.app');
+  } catch {
+    return false;
+  }
+};
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (isAllowedOrigin(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
