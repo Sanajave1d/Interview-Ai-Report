@@ -17,7 +17,7 @@ async function generateInterviewReportController(req, res) {
         })
 
         const interviewReport = await InterviewReportModel.create({
-            user: req.user.id,
+            user: req.user.userId,
             resume: resumeContent,
             selfDescription,
             jobDescription,
@@ -39,7 +39,7 @@ async function getInterviewByReportIdController(req,res) {
     const {interviewId} = req.params
     const interviewReport = await InterviewReportModel.findOne({
         _id: interviewId,
-        user: req.user.id
+        user: req.user.userId
     })
 
     if(!interviewReport){
@@ -57,7 +57,7 @@ async function getInterviewByReportIdController(req,res) {
 
 async function getAllInterviewReportsController(req,res) {
     const interviewReports = await InterviewReportModel.find({
-        user: req.user.id
+        user: req.user.userId
     }).sort({ createdAt: -1 }).select('-resume -selfDescription -jobDescription -_v -technicalQuestions -behavioralQuestions -skillGaps -preprationPlan')
 
     res.status(200).json({
