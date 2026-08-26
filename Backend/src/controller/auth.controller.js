@@ -3,8 +3,12 @@ const jwt = require("jsonwebtoken");
 const { userModel: User, userModel } = require("../models/user.model");
 const { blackListTokenModel } = require("../models/blackListToken.model");
 
-const accessTokenExpiry = process.env.ACCESS_TOKEN_EXPIRY || "15m";
-const refreshTokenExpiry = process.env.REFRESH_TOKEN_EXPIRY || "7d";
+function getExpiry(value, fallback) {
+  return (value || fallback).replace(/^['"]|['"]$/g, "");
+}
+
+const accessTokenExpiry = getExpiry(process.env.ACCESS_TOKEN_EXPIRY, "15m");
+const refreshTokenExpiry = getExpiry(process.env.REFRESH_TOKEN_EXPIRY, "7d");
 
 function getJwtSecret() {
   if (!process.env.JWT_SECRET) {
